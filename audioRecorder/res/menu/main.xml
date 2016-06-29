@@ -1,0 +1,51 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.alexmochalov.audiorecorder.MainActivity" >
+
+    <group android:id="@+id/group_list" >
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="10"
+        android:showAsAction="always|withText"
+        android:title="@string/action_add"/>
+    </group>
+    
+    <group android:id="@+id/group_record" >
+	    <item
+	        android:id="@+id/action_rec"
+	        android:orderInCategory="101"
+	        android:icon="@drawable/mic" 
+	        android:title="Start recording" 
+	      android:showAsAction="always"/>
+	    
+	    <item
+	        android:id="@+id/action_play"
+	        android:orderInCategory="102"
+	        android:icon="@drawable/playc" 
+	        android:title="Start playing" 
+	        android:showAsAction="always"/>
+	    
+	    <item
+	        android:id="@+id/action_stop"
+	        android:orderInCategory="103"
+	        android:icon="@drawable/stopc" 
+	        android:title="Stop" 
+	        android:showAsAction="always"/>
+	        
+	    <item
+	        android:id="@+id/action_pause"
+	        android:orderInCategory="104"
+	        android:icon="@drawable/pausec" 
+	        android:title="Pause" 
+	        android:showAsAction="always"/>
+    		    
+    </group>
+    
+    
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    
+</menu>

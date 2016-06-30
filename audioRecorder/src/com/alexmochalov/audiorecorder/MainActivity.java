@@ -9,11 +9,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.os.*;
 
 public class MainActivity extends Activity {
-	Menu mMenu;
-	int mState = 0;
+
+	// States of the application. They are displayed in toolbar menu
+	public enum State {
+			list, read, record, play, edit
+			}
+
+	public State mState = State.read;
 	
+	public static final String PROGRAMM_FOLDER = "xolosoft";
+	public static final String APP_FOLDER = Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+PROGRAMM_FOLDER+"/audiorecorder";
+
+	Menu mMenu;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -33,7 +44,7 @@ public class MainActivity extends Activity {
 		mMenu = menu;
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		setMenu(0);
+		setMenu(State.list);
 		return true;
 	}
 
@@ -51,12 +62,29 @@ public class MainActivity extends Activity {
 		switch (id) {
 		case R.id.action_add: {
 			setContentView(R.layout.text);
-			setMenu(1);
+			setMenu(State.read);
+			
 			return true;
 		}
 		case R.id.action_settings: {
 			return true;
 		}
+			case R.id.action_rec:
+				// Start voice recording
+				Media.startRecording();
+				setMenu(State.record);
+				return true;
+			case R.id.action_stop:
+				// Stop recording or playing
+				if (mState == State.record)
+					Media.stopRecording();
+				else if (mState == State.play)
+					Media.stopPlaying();
+
+				
+				setMenu(State.read);
+				return true;
+		
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -65,18 +93,19 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (mState == 1) {
+			if (mState == State.read) {
 				setContentView(R.layout.activity_main);
-				setMenu(0);
+				setMenu(State.list);
+				RawRecords.setAdapter(this, (ListView)findViewById(R.id.listViewRecords));
 				return true;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	private void setMenu(int state) {
+	private void setMenu(State state) {
 		mState = state;
-		if (mState == 0){
+		if (mState == State.list){
 			mMenu.setGroupVisible(R.id.group_list, true);
 			mMenu.setGroupVisible(R.id.group_record, false);
 			

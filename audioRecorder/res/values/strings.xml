@@ -5,6 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="action_add">Add</string>
+    <string name="action_add">Добавить</string>
+	<string name="action_load_text">Загрузить текст</string>
     
 </resources>

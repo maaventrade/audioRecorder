@@ -120,12 +120,11 @@ public class Media {
 	}
 
 
-	public static void startShowTime(State state) {
-		mState = state;
+	public static void startShowTime() {
     	handler.postDelayed(updateTimeTask, 1000);
 	}
 
-	public static void startRecording() {        
+	public static boolean startRecording() {        
 		mediaRecorder = new MediaRecorder();        
 		try {            
 			mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);        
@@ -134,7 +133,7 @@ public class Media {
 			if (listener != null)
 				listener.onMessage("Error on phone initialisation: " + e.toString());
 
-			return;
+			return false;
 		}        
 		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 
@@ -148,13 +147,19 @@ public class Media {
 		catch (IOException e) {      
 			if (listener != null)
 				listener.onMessage("Error on mediacoder initialisation: " + e.toString());
-			return;
+			return false;
 		}        
 		mediaRecorder.start();
 		if (listener != null)
 			listener.onSetState(State.record);
 		mState = State.record;
 		playingMediaFileName = tempMediaFileName;
+		
+		dropTimer();
+		//seekBar.setVisibility(View.INVISIBLE);
+		startShowTime();
+		
+		return true;
 		//**/RecsArray.setCurent(-1);
 	}
 

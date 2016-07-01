@@ -7,5 +7,7 @@
 
     <string name="action_add">Добавить</string>
 	<string name="action_load_text">Загрузить текст</string>
-    
+    <string name="dialog_save_audio">Сохранить запись</string>
+	<string name="dialog_save_audio_name">Название записи</string>
+	
 </resources>

@@ -1,18 +1,10 @@
 package com.alexmochalov.audiorecorder;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.app.*;
+import android.content.*;
 import android.os.*;
+import android.view.*;
+import android.widget.*;
 
 public class MainActivity extends Activity {
 	// States of the application.
@@ -105,13 +97,18 @@ public class MainActivity extends Activity {
 	}
 	*/
 	
+	//
 	void dialogSaveRecord(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-		builder.setTitle("AlertDialog with No Buttons");
+		builder.setTitle(getResources().getString(R.string.dialog_save_audio));
 
-        builder.setMessage("Hello, you can hide this message by just tapping outside the dialog box!");
-
+        builder.setMessage(getResources().getString(R.string.dialog_save_audio_name));
+		
+		final TextView tvDuration = new TextView(this);
+		tvDuration.setText("Dfddhgd");
+        builder.setView(tvDuration);
+		
         final EditText input = new EditText(this);
         builder.setView(input);
         

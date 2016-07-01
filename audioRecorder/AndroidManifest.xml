@@ -16,6 +16,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+		<provider android:name=".RecProvider"
+		android:authorities="com.alexmochalov.recprovider" />
+        
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >

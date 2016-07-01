@@ -28,8 +28,7 @@ public class MainActivity extends Activity {
 		ActionBar actionbar = getActionBar();
 		actionbar.setDisplayShowTitleEnabled(false);
 		
-		RawRecords.add("Test 1");
-		RawRecords.add("Test 2");
+		RawRecords.loadFromDatabase(this);
 		RawRecords.setAdapter(this, (ListView)findViewById(R.id.listViewRecords));
 	}
 
@@ -105,19 +104,21 @@ public class MainActivity extends Activity {
 
         builder.setMessage(getResources().getString(R.string.dialog_save_audio_name));
 		
-		final TextView tvDuration = new TextView(this);
-		tvDuration.setText("Dfddhgd");
-        builder.setView(tvDuration);
-		
         final EditText input = new EditText(this);
+        input.setText("Test");
         builder.setView(input);
         
         //Yes Button
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Toast.makeText(getApplicationContext(),"Yes button Clicked",Toast.LENGTH_LONG).show();
-                //Log.i("Code2care ", "Yes button Clicked!");
+            	RawRecord rawRecord = new RawRecord(0,
+            			input.getText().toString(), 
+            			"no text", 
+            			Media.getTimeStarting()+Media.getDuration(), 
+            			Media.getDuration());
+            	
+            	rawRecord.addToDatabase(MainActivity.this);
             	setContentViewList();
                 dialog.dismiss();
             }

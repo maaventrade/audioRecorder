@@ -2,6 +2,7 @@ package com.alexmochalov.audiorecorder;
 
 import java.io.IOException;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -222,6 +223,11 @@ public class Media {
 							 second*1000-
 							 minute*1000*60-
 							 hour*1000 * 60 * 60);
+	}
+
+	public static void saveToDataBase(Context context) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

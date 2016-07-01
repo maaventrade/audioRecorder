@@ -8,18 +8,19 @@ import android.text.*;
 import android.util.*;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 
-public class recProvider extends ContentProvider
+public class RecProvider extends ContentProvider
 {
 	public static long newRowID;
+	public static String currentTable;
 
 	// Path to this data source
 	public static final Uri CONTENT_URI = 
-	Uri.parse("content://com.xolo.recprovider/records");
+	Uri.parse("content://com.alexmochalov.recprovider/records");
 
 	public static final String KEY_ID = "_id";
 	public static final String DATE = "date";
-	public static final String TIME = "time";
-	public static final String FILENAME = "filename";
+	public static final String DURATION = "duration";
+	public static final String AUDIOFILENAME = "audiofilename";
 	public static final String TEXTFILENAME = "textfilename";
 
 	private FLDatabaseHelper dbHelper;
@@ -30,38 +31,34 @@ public class recProvider extends ContentProvider
 
 	static {
 		uriMatcher = new UriMatcher(UriMatcher.NO_MATCH) ;
-		uriMatcher.addURI("com.xolo.recprovider", "records",
+		uriMatcher.addURI("com.alexmochalov.recprovider", "records",
 						  INFO);
-		uriMatcher.addURI("com.xolo.recprovider", "records/#",
+		uriMatcher.addURI("com.alexmochalov.recprovider", "records/#",
 						  INFO_ID) ;
 	}	
 
 	private static class FLDatabaseHelper extends SQLiteOpenHelper{
 
-		private	static final String	TAG = "FLProvider";
+		private	static final String	TAG = "RecProvider";
 
-		private static final String DATABASE_NAME = "results.db";
+		private static final String DATABASE_NAME = "records.db";
 
-		private static final String TABLE_RES = "results";
+		private static final String TABLE_REC = "records";
 
-		private static final int DATABASE_VERSION = 1;
+		private static final int DATABASE_VERSION = 3;
 
 		private static final String DATABASE_CREATE = 
 		"create table "+
-		TABLE_RES +" (" + KEY_ID +
+		TABLE_REC +" (" + KEY_ID +
 		" integer primary key autoincrement, " +
 		DATE + " integer, " +
-		COUNT + " integer, " +
-		TIME + " integer, " +
-		MIDDLE + " float, " +
-		BEST + " float, "+
-		DOWN + " boolean, "+
-		MOVE+ " boolean, "+
-		COMMENT + " text "+
+		DURATION + " integer, " +
+		AUDIOFILENAME + " text, "+
+		TEXTFILENAME + " text "+
 		");" ;
 
 		//
-		private SQLiteDatabase timelineDB;
+		//private SQLiteDatabase timelineDB;
 
 		public FLDatabaseHelper(Context context, String name,
 								CursorFactory factory, int version) {
@@ -79,7 +76,7 @@ public class recProvider extends ContentProvider
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			Log.d(TAG, "Upgrading database from version " + oldVersion + " to "
 				  + newVersion + ", which will destroy all old data");
-			db.execSQL("DROP TABLE IF EXISTS " + TABLE_RES);
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_REC);
 			Log.d("", "DROP");
 			onCreate(db);
 		}
@@ -102,7 +99,7 @@ public class recProvider extends ContentProvider
 		SQLiteDatabase database = dbHelper. getWritableDatabase ();
 		SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
 
-		qb.setTables(FLDatabaseHelper.TABLE_RES);
+		qb.setTables(currentTable);
 
 		Log.d("", "uriMatcher.match(uri): "+uriMatcher.match(uri));
 
@@ -137,8 +134,8 @@ public class recProvider extends ContentProvider
 	@Override
 	public String getType(Uri uri) {
 		switch (uriMatcher.match(uri))	{
-			case INFO: return "vnd.android.cursor.dir/xolo.timeline";
-			case INFO_ID: return "vnd.android.cursor.item/xolo.timeline";
+			case INFO: return "vnd.android.cursor.dir/alexmochalov.audiorecorder";
+			case INFO_ID: return "vnd.android.cursor.item/alexmochalov.audiorecorder";
 			default: throw new IllegalArgumentException("Unsupported URI: " + uri);
 		}	
 	}
@@ -150,7 +147,7 @@ public class recProvider extends ContentProvider
 	@Override
 	public Uri insert(Uri _uri, ContentValues values) {
 		SQLiteDatabase database = dbHelper.getWritableDatabase();
-		newRowID = database.insert(FLDatabaseHelper.TABLE_RES, "results",
+		newRowID = database.insert(currentTable, "records",
 								   values);
 		//
 		if (newRowID > 0)	{
@@ -168,12 +165,12 @@ public class recProvider extends ContentProvider
 		switch (uriMatcher.match(uri))	{
 			case INFO:
 				count = database.delete(
-					FLDatabaseHelper.TABLE_RES,
+					currentTable,
 					selection, selectionArgs);
 				break;
 			case INFO_ID:
 				String segment = uri.getPathSegments().get(1);
-				count = database.delete(FLDatabaseHelper.TABLE_RES,
+				count = database.delete(currentTable,
 										KEY_ID + "="
 										+ segment
 										+ (!TextUtils.isEmpty(selection) ? " AND ("
@@ -195,13 +192,13 @@ public class recProvider extends ContentProvider
 		switch (uriMatcher.match(uri))	{
 			case INFO:
 				count = database.update
-				(FLDatabaseHelper.TABLE_RES,
+				(currentTable,
 				 values, selection, selectionArgs);
 				break;
 			case INFO_ID:
 				String segment = uri.getPathSegments().get(1);
 				count = database.update
-				(FLDatabaseHelper.TABLE_RES,
+				(currentTable,
 				 values, KEY_ID
 				 + "=" + segment
 				 + (!TextUtils.isEmpty(selection) ? " AND ("

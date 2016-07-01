@@ -40,7 +40,7 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 		RawRecord entry = values.get(position);
 
 		TextView text = (TextView)convertView.findViewById(R.id.textViewAudioFile);
-		text.setText(entry.mAudioFileName);
+		text.setText(entry.audioFileName);
 
 		return convertView;
 	}

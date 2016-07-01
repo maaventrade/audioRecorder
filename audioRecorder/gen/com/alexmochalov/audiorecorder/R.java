@@ -66,8 +66,9 @@ public final class R {
         public static final int settings=0x7f020017;
         public static final int stopc=0x7f020018;
         public static final int stopu=0x7f020019;
-        public static final int undo=0x7f02001a;
-        public static final int voidf=0x7f02001b;
+        public static final int submenu=0x7f02001a;
+        public static final int undo=0x7f02001b;
+        public static final int voidf=0x7f02001c;
     }
     public static final class id {
         public static final int action_add=0x7f090007;

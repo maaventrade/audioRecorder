@@ -46,7 +46,7 @@
         android:orderInCategory="211"
         android:showAsAction="always"
         android:title="submenu" 
-        android:icon="@drawable/folder">
+        android:icon="@drawable/submenu">
 		<menu>
 			<item
 				android:id="@+id/action_settings"

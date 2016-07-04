@@ -3,6 +3,8 @@ package com.alexmochalov.audiorecorder;
 import android.content.*;
 import android.view.*;
 import android.widget.*;
+import android.widget.CheckBox.*;
+
 import java.text.*;
 import java.util.*;
 
@@ -18,6 +20,7 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 	int resource;
 	
 	boolean checkBoxIsVisible = false;
+	int checkBoxWidth = 0;
 
 	public ArrayAdapterRecords(Context context, int res, ArrayList<RawRecord> values){
 		super(context, res, values);
@@ -51,16 +54,31 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 		CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.rawCheckBox1);
 		if (checkBoxIsVisible){
 			checkBox.setVisibility(View.VISIBLE);
-			checkBox.setWidth(100);
+			checkBox.setWidth(80); /// ????
 		} else {
+			if (checkBox.getWidth() > 0)
+				checkBoxWidth = checkBox.getWidth();
 			checkBox.setVisibility(View.INVISIBLE);
 			checkBox.setWidth(0);
-		}
+		}		
 		
+		// присваиваем чекбоксу обработчик
+		checkBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+		    public void onCheckedChanged(CompoundButton buttonView,
+			        boolean isChecked) {
+		    	values.get((Integer)buttonView.getTag()).selected = isChecked;
+			    }
+		});
 		
+		// пишем позицию
+		checkBox.setTag(position);
+		// заполняем данными из товаров: в корзине или нет
+		//checkBox.setChecked(p.box);		
+
 		return convertView;
 	}
 
+	
 	public int getCount(){
 		return values.size();
 	}

@@ -1,5 +1,6 @@
 package com.alexmochalov.audiorecorder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
@@ -13,17 +14,17 @@ import android.widget.ListView;
 public class RawRecords{
 	private static ArrayList<RawRecord> list = new ArrayList<RawRecord>();
 
+	private static ArrayAdapterRecords adapter;
+
 	public static void setEdit(ListView listView,boolean p)
 	{
-		ArrayAdapterRecords adapter = (ArrayAdapterRecords)listView.getAdapter();
+		adapter = (ArrayAdapterRecords)listView.getAdapter();
 		adapter.checkBoxIsVisible = p;
 		adapter.notifyDataSetChanged();
-		// TODO: Implement this method
 	}
 
 	public static void add(RawRecord rawRecord)
 	{
-		// TODO: Implement this method
 	}	
 	
 	static void setAdapter(Context context, ListView listView ){
@@ -84,6 +85,22 @@ public class RawRecords{
 		
 		cursor.close();
 		
+	}
+
+	public static void delete(Context context) {
+		for (RawRecord r : list){
+			if (r.selected){
+				ContentResolver cr = context.getContentResolver();
+				String w = RecProvider.KEY_ID + " = " + r.id;
+				cr.delete(RecProvider.CONTENT_URI, w, null);
+				
+				File file = new File(MainActivity.REC_FOLDER+"/"+r.audioFileName+".3gp");
+				file.delete();
+				
+			}
+		}
+		loadFromDatabase(context);
+		adapter.notifyDataSetChanged();
 	}
 	
 	

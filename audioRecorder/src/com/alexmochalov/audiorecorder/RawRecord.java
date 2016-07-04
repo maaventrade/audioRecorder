@@ -10,6 +10,8 @@ public class RawRecord {
 	long dateTime;
 	long duration;
 	
+	boolean selected = false;	
+	
 	public RawRecord(String pAudioFileName) {
 		audioFileName = pAudioFileName;
 	}

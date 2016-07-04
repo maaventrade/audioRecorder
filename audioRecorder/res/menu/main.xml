@@ -3,64 +3,65 @@
     tools:context="com.alexmochalov.audiorecorder.MainActivity" >
 
     <group android:id="@+id/group_list" >
-    <item
-        android:id="@+id/action_add"
-        android:orderInCategory="10"
-        android:showAsAction="always|withText"
-        android:title="@string/action_add"/>
+        <item
+            android:id="@+id/action_add"
+            android:orderInCategory="10"
+            android:showAsAction="always|withText"
+            android:title="@string/action_add"/>
+        <item 
+            android:id="@+id/action_submenu"
+            android:icon="@drawable/submenu"
+            android:orderInCategory="211"
+            android:showAsAction="always"
+            android:title="submenu">
+            <menu>
+                <item
+                    android:id="@+id/action_edit"
+                    android:orderInCategory="305"
+                    android:showAsAction="never"
+                    android:title="@string/action_list_edit"/>
+                <item
+                    android:id="@+id/action_settings"
+                    android:orderInCategory="310"
+                    android:showAsAction="never"
+                    android:title="@string/action_settings"/>
+            </menu>
+        </item>
+    </group>
+
+    <group android:id="@+id/group_list_edit" >
+        <item
+            android:id="@+id/action_delete"
+            android:orderInCategory="10"
+            android:showAsAction="always|withText"
+            android:title="@string/action_delete"/>
     </group>
     
     <group android:id="@+id/group_record" >
-	    <item
-	        android:id="@+id/action_rec"
-	        android:orderInCategory="101"
-	        android:icon="@drawable/mic" 
-	        android:title="Start recording" 
-	      android:showAsAction="always"/>
-	    
-	    <item
-	        android:id="@+id/action_play"
-	        android:orderInCategory="102"
-	        android:icon="@drawable/playc" 
-	        android:title="Start playing" 
-	        android:showAsAction="always"/>
-	    
-	    <item
-	        android:id="@+id/action_stop"
-	        android:orderInCategory="103"
-	        android:icon="@drawable/stopc" 
-	        android:title="Stop" 
-	        android:showAsAction="always"/>
-	        
-	    <item
-	        android:id="@+id/action_pause"
-	        android:orderInCategory="104"
-	        android:icon="@drawable/pausec" 
-	        android:title="Pause" 
-	        android:showAsAction="always"/>
-    		    
+        <item
+            android:id="@+id/action_rec"
+            android:icon="@drawable/mic"
+            android:orderInCategory="101"
+            android:showAsAction="always"
+            android:title="Start recording"/>
+        <item
+            android:id="@+id/action_play"
+            android:icon="@drawable/playc"
+            android:orderInCategory="102"
+            android:showAsAction="always"
+            android:title="Start playing"/>
+        <item
+            android:id="@+id/action_stop"
+            android:icon="@drawable/stopc"
+            android:orderInCategory="103"
+            android:showAsAction="always"
+            android:title="Stop"/>
+        <item
+            android:id="@+id/action_pause"
+            android:icon="@drawable/pausec"
+            android:orderInCategory="104"
+            android:showAsAction="always"
+            android:title="Pause"/>
     </group>
-    
-    <item
-        android:id="@+id/action_submenu"
-        android:orderInCategory="211"
-        android:showAsAction="always"
-        android:title="submenu" 
-        android:icon="@drawable/submenu">
-		<menu>
-			<item
-				android:id="@+id/action_edit"
-				android:orderInCategory="305"
-				android:showAsAction="never"
-				android:title="@string/action_list_edit"/>
-			
-			<item
-				android:id="@+id/action_settings"
-				android:orderInCategory="310"
-				android:showAsAction="never"
-				android:title="@string/action_settings"/>
-			
-		</menu>
-	</item>
-    
+
 </menu>

@@ -11,7 +11,20 @@ import android.util.Log;
 import android.widget.ListView;
 
 public class RawRecords{
-	private static ArrayList<RawRecord> list = new ArrayList<RawRecord>();	
+	private static ArrayList<RawRecord> list = new ArrayList<RawRecord>();
+
+	public static void setEdit(ListView listView,boolean p)
+	{
+		ArrayAdapterRecords adapter = (ArrayAdapterRecords)listView.getAdapter();
+		adapter.checkBoxIsVisible = p;
+		adapter.notifyDataSetChanged();
+		// TODO: Implement this method
+	}
+
+	public static void add(RawRecord rawRecord)
+	{
+		// TODO: Implement this method
+	}	
 	
 	static void setAdapter(Context context, ListView listView ){
 		ArrayAdapterRecords adapter = new ArrayAdapterRecords(context,
@@ -24,7 +37,13 @@ public class RawRecords{
 		list.add(new RawRecord(string));
 	}
 	
+	public static void notify(ListView listView){
+		ArrayAdapterRecords adapter = (ArrayAdapterRecords)listView.getAdapter();
+		adapter.notifyDataSetChanged();
+	}
+	
 	public static void loadFromDatabase(Context context){
+		
 		ContentResolver cr = context.getContentResolver();
 	
 		String[] result_columns = new String[] {
@@ -44,7 +63,8 @@ public class RawRecords{
 		Cursor cursor = cr.query(RecProvider.CONTENT_URI,
 				result_columns, where, whereArgs, order);
 		
-		int n = 1;
+		list.clear();
+		
 		while (cursor.moveToNext()) {
 			int id = cursor.getInt(cursor.getColumnIndexOrThrow
 					(RecProvider.KEY_ID));

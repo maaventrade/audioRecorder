@@ -20,8 +20,8 @@ public class Media {
 
 	static State mState;
 
-	static String tempMediaFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/readrectmp.3gp";
-	static String playingMediaFileName = tempMediaFileName;
+	//static String tempMediaFileName = Environment.getExternalStorageDirectory().getAbsolutePath()+"/readrectmp.3gp";
+	static String playingMediaFileName = MainActivity.REC_TEMP;
 
 	public static OnEventListener listener;
 
@@ -72,9 +72,9 @@ public class Media {
 		// TODO: Implement this method
 	}
 
-	public static String getTempMediaFileName(){
-		return tempMediaFileName;
-	}
+	//public static String getTempMediaFileName(){
+		//return tempMediaFileName;
+	//}
 
 	public static void playPause()
 	{
@@ -139,8 +139,8 @@ public class Media {
 		mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
 
 		if (listener != null)
-			listener.onMessage(tempMediaFileName);
-		mediaRecorder.setOutputFile(tempMediaFileName);        
+			listener.onMessage(MainActivity.REC_TEMP);
+		mediaRecorder.setOutputFile(MainActivity.REC_TEMP);        
 		mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);        
 		try {            
 			mediaRecorder.prepare();        
@@ -154,7 +154,7 @@ public class Media {
 		if (listener != null)
 			listener.onSetState(State.record);
 		mState = State.record;
-		playingMediaFileName = tempMediaFileName;
+		playingMediaFileName = MainActivity.REC_TEMP;
 		
 		dropTimer();
 		//seekBar.setVisibility(View.INVISIBLE);

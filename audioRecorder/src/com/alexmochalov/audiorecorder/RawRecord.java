@@ -1,10 +1,7 @@
 package com.alexmochalov.audiorecorder;
 
-import java.util.GregorianCalendar;
-
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
+import android.content.*;
+import java.text.*;
 
 public class RawRecord {
 	int id;
@@ -23,6 +20,19 @@ public class RawRecord {
 		this.textFileName = textFileName;
 		this.dateTime = dateTime;
 		this.duration = duration;
+	}
+
+	public CharSequence getDateTimeStr()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		return sdf.format(dateTime);
+	}
+	
+
+	public CharSequence getDurationStr()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		return sdf.format(duration);
 	}
 	
 	public void addToDatabase(Context context) {

@@ -5,17 +5,11 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
-	<Button
-		android:layout_height="wrap_content"
-		style="?android:attr/buttonStyleSmall"
-		android:text="Small Button"
-		android:layout_width="wrap_content"/>
-	
+
 	<ListView
 		android:id="@+id/listViewRecords"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"/>
 
-	
 </LinearLayout>
 

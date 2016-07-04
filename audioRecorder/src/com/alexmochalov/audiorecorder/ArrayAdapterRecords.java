@@ -1,15 +1,10 @@
 package com.alexmochalov.audiorecorder;
 
-import java.util.ArrayList;
-
-import android.text.Html;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.content.Context;
-import android.graphics.Typeface;
+import android.content.*;
+import android.view.*;
+import android.widget.*;
+import java.text.*;
+import java.util.*;
 
 /**
  * 
@@ -21,6 +16,8 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 	private ArrayList<RawRecord> values;
 	Context context;
 	int resource;
+	
+	boolean checkBoxIsVisible = false;
 
 	public ArrayAdapterRecords(Context context, int res, ArrayList<RawRecord> values){
 		super(context, res, values);
@@ -42,6 +39,25 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 		TextView text = (TextView)convertView.findViewById(R.id.textViewAudioFile);
 		text.setText(entry.audioFileName);
 
+		text = (TextView)convertView.findViewById(R.id.textViewTextFile);
+		text.setText(entry.textFileName);
+		
+		text = (TextView)convertView.findViewById(R.id.textViewDateTime);
+		text.setText(entry.getDateTimeStr());
+		
+		text = (TextView)convertView.findViewById(R.id.textViewDuration);
+		text.setText(entry.getDurationStr());
+		
+		CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.rawCheckBox1);
+		if (checkBoxIsVisible){
+			checkBox.setVisibility(View.VISIBLE);
+			checkBox.setWidth(100);
+		} else {
+			checkBox.setVisibility(View.INVISIBLE);
+			checkBox.setWidth(0);
+		}
+		
+		
 		return convertView;
 	}
 

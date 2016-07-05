@@ -11,7 +11,17 @@
 		
 	<string name="action_load_text">Загрузить текст</string>
     <string name="dialog_save_audio">Сохранить запись</string>
-	<string name="dialog_save_audio_name">Название записи</string>
+	<string name="dialog_save_audio_name">Название записи:</string>
+	<string name="dialog_save_text_name">Текст:</string>
+	<string name="dialog_save_date">Дата:</string>
+	<string name="dialog_save_duration">Длительность:</string>
+	<string name="dialog_save_tags">Метки:</string>
+	
+	
+	<string name="ok">Ok</string>
+	<string name="no">Нет</string>
+	<string name="yes">Да</string>
+	<string name="cancel">Отмена</string>
 	
 	<string name="new_record">Новая запись</string>
 	<string name="text_not_loaded">Текст не загружен</string>

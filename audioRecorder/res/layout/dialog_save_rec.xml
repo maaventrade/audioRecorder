@@ -23,7 +23,7 @@
 		android:layout_height="wrap_content"
 		android:ems="10"
 		android:layout_width="wrap_content"
-		android:id="@+id/dialogsaverecEditText1"/>
+		android:id="@+id/dialogsaverecAudioFileName"/>
 
 	<LinearLayout
 		android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
 			android:text="Medium Text"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="wrap_content"
-			android:id="@+id/dialogsaverecTextView1"
+			android:id="@+id/dialogsaverecTextFileName"
 			android:textColor="@color/navy"/>
 
 	</LinearLayout>
@@ -64,7 +64,7 @@
 			android:text="Medium Text"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="wrap_content"
-			android:id="@+id/dialogsaverecTextView2"
+			android:id="@+id/dialogsaverecDate"
 			android:textColor="@color/navy"/>
 
 	</LinearLayout>
@@ -87,7 +87,7 @@
 			android:text="Medium Text"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:layout_width="wrap_content"
-			android:id="@+id/dialogsaverecTextView3"
+			android:id="@+id/dialogsaverecDuration"
 			android:textColor="@color/navy"/>
 
 	</LinearLayout>

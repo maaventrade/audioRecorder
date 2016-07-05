@@ -9,9 +9,12 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class RawRecords{
+public class RawRecords {
 	private static ArrayList<RawRecord> list = new ArrayList<RawRecord>();
 
 	private static ArrayAdapterRecords adapter;
@@ -27,10 +30,17 @@ public class RawRecords{
 	{
 	}	
 	
-	static void setAdapter(Context context, ListView listView ){
+	static void setAdapter(final Context context, ListView listView ){
 		ArrayAdapterRecords adapter = new ArrayAdapterRecords(context,
 				  R.layout.raw, list);
 		listView.setAdapter(adapter);
+		listView.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				DialogSaveRec dialog = new DialogSaveRec(context, list.get(position));
+				dialog.show();
+			}});
 		
 	}
 
@@ -102,7 +112,7 @@ public class RawRecords{
 		loadFromDatabase(context);
 		adapter.notifyDataSetChanged();
 	}
-	
+
 	
 }
 

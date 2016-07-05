@@ -5,6 +5,8 @@ import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
+import android.widget.AdapterView.OnItemClickListener;
+
 import java.io.*;
 
 public class MainActivity extends Activity {
@@ -23,6 +25,8 @@ public class MainActivity extends Activity {
 	public static final String REC_FOLDER = APP_FOLDER + "/rec";
 	public static final String REC_TEMP = APP_FOLDER + "/temp.3gp";
 
+	public static final String DATABASE_NAME = APP_FOLDER + "/records.db";
+	
 	Menu mMenu;
 	ActionBar actionBar;
 
@@ -41,7 +45,7 @@ public class MainActivity extends Activity {
 		RawRecords.loadFromDatabase(this);
 		RawRecords.setAdapter(this,
 				(ListView) findViewById(R.id.listViewRecords));
-
+		
 		checkDirectory(PROGRAMM_FOLDER);
 		checkDirectory(APP_FOLDER);
 		checkDirectory(REC_FOLDER);

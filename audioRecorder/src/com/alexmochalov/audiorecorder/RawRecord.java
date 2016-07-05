@@ -1,6 +1,7 @@
 package com.alexmochalov.audiorecorder;
 
 import android.content.*;
+
 import java.text.*;
 
 public class RawRecord {
@@ -37,6 +38,10 @@ public class RawRecord {
 		return sdf.format(duration);
 	}
 	
+	public String getAudioFileName(){
+		return audioFileName;
+	}
+	
 	public void addToDatabase(Context context) {
 		ContentResolver cr = context.getContentResolver();
 
@@ -59,6 +64,10 @@ public class RawRecord {
 			cr.insert(RecProvider.CONTENT_URI, values);
 		//}	
 		//query.close();
+	}
+
+	public CharSequence getTextFileName() {
+		return textFileName;
 	}	
 	
 }

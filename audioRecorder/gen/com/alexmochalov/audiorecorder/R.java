@@ -82,10 +82,10 @@ public final class R {
         public static final int action_settings=0x7f090011;
         public static final int action_stop=0x7f090017;
         public static final int action_submenu=0x7f09000f;
-        public static final int dialogsaverecEditText1=0x7f090001;
-        public static final int dialogsaverecTextView1=0x7f090002;
-        public static final int dialogsaverecTextView2=0x7f090003;
-        public static final int dialogsaverecTextView3=0x7f090004;
+        public static final int dialogsaverecAudioFileName=0x7f090001;
+        public static final int dialogsaverecDate=0x7f090003;
+        public static final int dialogsaverecDuration=0x7f090004;
+        public static final int dialogsaverecTextFileName=0x7f090002;
         public static final int dialogsaverecTextView999=0x7f090006;
         public static final int dialogsaverecTextViewTags=0x7f090005;
         public static final int group_list=0x7f09000d;

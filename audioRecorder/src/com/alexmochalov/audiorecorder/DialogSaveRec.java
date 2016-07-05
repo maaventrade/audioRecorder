@@ -9,10 +9,12 @@ public class DialogSaveRec extends Dialog
 	
 	Dialog dialog;
 	Context mContext;
+	RawRecord mRawRecord;
 
-	public DialogSaveRec(Context context) {
+	public DialogSaveRec(Context context, RawRecord rawRecord) {
 		super(context);
 		mContext = context;
+		mRawRecord = rawRecord;
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +25,21 @@ public class DialogSaveRec extends Dialog
 	 	dialog.setContentView(R.layout.dialog_save_rec);
 
 		EditText e = (EditText)dialog.
-			findViewById(R.id.dialogsaverecEditText1);
-		//e.setText(""+i);
+			findViewById(R.id.dialogsaverecAudioFileName);
+		e.setText(mRawRecord.getAudioFileName());
 
+		TextView t = (TextView)dialog.
+				findViewById(R.id.dialogsaverecTextFileName);
+		t.setText(mRawRecord.getTextFileName());
+		
+		t = (TextView)dialog.
+				findViewById(R.id.dialogsaverecDate);
+		t.setText(mRawRecord.getDateTimeStr());
+
+		t = (TextView)dialog.
+				findViewById(R.id.dialogsaverecDuration);
+		t.setText(mRawRecord.getDurationStr());
+		
 		/*
 
 		Button b = (Button)dialog.findViewById(R.id.dialogmodegroupprefButtonOk);
@@ -80,8 +94,4 @@ public class DialogSaveRec extends Dialog
 			return defaultValue;
 		}
 	}
-
-	
-	
-{
 }

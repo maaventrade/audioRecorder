@@ -1,5 +1,7 @@
 package com.alexmochalov.audiorecorder;
 
+import java.io.File;
+
 import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
@@ -23,6 +25,12 @@ public class RecProvider extends ContentProvider
 	public static final String AUDIOFILENAME = "audiofilename";
 	public static final String TEXTFILENAME = "textfilename";
 
+	public static final String TEXT = "text";
+
+	public static final String KEY_ID_REC = "_idr";
+	public static final String KEY_ID_TAG = "_idt";
+	
+	
 	private FLDatabaseHelper dbHelper;
 
 	private static	final	int INFO	= 1;
@@ -41,13 +49,15 @@ public class RecProvider extends ContentProvider
 
 		private	static final String	TAG = "RecProvider";
 
-		private static final String DATABASE_NAME = "records.db";
+		private static final String DATABASE_NAME = MainActivity.DATABASE_NAME; //"records.db";
 
 		private static final String TABLE_REC = "records";
+		private static final String TABLE_TAG = "tags";
+		private static final String TABLE_TAG_REC = "tr";
 
-		private static final int DATABASE_VERSION = 3;
+		private static final int DATABASE_VERSION = 4;
 
-		private static final String DATABASE_CREATE = 
+		private static final String DATABASE_CREATE_REC = 
 		"create table "+
 		TABLE_REC +" (" + KEY_ID +
 		" integer primary key autoincrement, " +
@@ -55,6 +65,21 @@ public class RecProvider extends ContentProvider
 		DURATION + " integer, " +
 		AUDIOFILENAME + " text, "+
 		TEXTFILENAME + " text "+
+		");" ;
+
+		private static final String DATABASE_CREATE_TAG = 
+		"create table "+
+		TABLE_TAG +" (" + KEY_ID +
+		" integer primary key autoincrement, " +
+		TEXT + " text "+
+		");" ;
+
+		private static final String DATABASE_CREATE_TAG_REC = 
+		"create table "+
+		TABLE_TAG_REC +" (" + KEY_ID +
+		" integer primary key autoincrement, " +
+		KEY_ID_REC + " integer,"+
+		KEY_ID_TAG + " integer "+
 		");" ;
 
 		//
@@ -68,8 +93,9 @@ public class RecProvider extends ContentProvider
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			Log.d("","CREATE");
-			db.execSQL(DATABASE_CREATE);
+			db.execSQL(DATABASE_CREATE_REC);
+			db.execSQL(DATABASE_CREATE_TAG);
+			db.execSQL(DATABASE_CREATE_TAG_REC);
 		}
 
 		@Override
@@ -77,12 +103,15 @@ public class RecProvider extends ContentProvider
 			Log.d(TAG, "Upgrading database from version " + oldVersion + " to "
 				  + newVersion + ", which will destroy all old data");
 			db.execSQL("DROP TABLE IF EXISTS " + TABLE_REC);
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAG);
+			db.execSQL("DROP TABLE IF EXISTS " + TABLE_TAG_REC);
 			Log.d("", "DROP");
 			onCreate(db);
 		}
 
 	}
 
+	
 	@Override
 	public boolean onCreate() {
 		Context context = getContext();

@@ -5,47 +5,34 @@ import android.os.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
+
 import java.util.*;
 
-public class DialogSaveRec extends Dialog
+public class DialogRecTags extends Dialog
 {
 	
 	Dialog dialog;
 	Context mContext;
-	RawRecord mRawRecord;
+	String mRecName;
+	//RawRecord mRawRecord;
 	
 	ArrayList<Tag> list = new ArrayList<Tag>();
 
-	public DialogSaveRec(Context context, RawRecord rawRecord) {
+	public DialogRecTags(Context context, String recName) {
 		super(context);
 		mContext = context;
-		mRawRecord = rawRecord;
+		mRecName = recName;
+		//mRawRecord = rawRecord;
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		dialog = this;
-		dialog.setTitle(mContext.getResources().getString(R.string.dialog_save_audio));
-	 	dialog.setContentView(R.layout.dialog_save_rec);
+		dialog.setTitle(mContext.getResources().getString(R.string.dialog_rec_tags)+" <"+mRecName+">");
+	 	dialog.setContentView(R.layout.dialog_rec_tags);
 
-		final EditText recName = (EditText)dialog.
-			findViewById(R.id.dialogsaverecAudioFileName);
-		recName.setText(mRawRecord.getAudioFileName());
-
-		TextView t = (TextView)dialog.
-				findViewById(R.id.dialogsaverecTextFileName);
-		t.setText(mRawRecord.getTextFileName());
-		
-		t = (TextView)dialog.
-				findViewById(R.id.dialogsaverecDate);
-		t.setText(mRawRecord.getDateTimeStr());
-
-		t = (TextView)dialog.
-				findViewById(R.id.dialogsaverecDuration);
-		t.setText(mRawRecord.getDurationStr());
-		
-		ListView listView = (ListView)findViewById(R.id.dialogsaverecListViewTags);
+		ListView listView = (ListView)findViewById(R.id.dialogrectagList);
 		
 		list.add(new Tag("11212"));
 		list.add(new Tag("asdadasd"));
@@ -59,8 +46,8 @@ public class DialogSaveRec extends Dialog
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 										int position, long id) {
-					DialogRecTags dialog = new DialogRecTags(mContext, recName.getText().toString());
-					dialog.show();
+					//DialogSaveRec dialog = new DialogSaveRec(mContext, list.get(position));
+					//dialog.show();
 				}});
 		
 		/*

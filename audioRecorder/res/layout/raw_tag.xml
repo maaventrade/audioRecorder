@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<CheckBox
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:id="@+id/raw_tag_check_box"/>
+
+		<TextView
+			android:id="@+id/raw_tag_tag"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="@dimen/activity_horizontal_margin"
+			android:text="Label"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:singleLine="true"/>
+
+	</LinearLayout>
+
+		
+
+</LinearLayout>
+

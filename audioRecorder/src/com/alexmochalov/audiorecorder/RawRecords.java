@@ -33,15 +33,7 @@ public class RawRecords {
 	static void setAdapter(final Context context, ListView listView ){
 		ArrayAdapterRecords adapter = new ArrayAdapterRecords(context,
 				  R.layout.raw, list);
-		listView.setAdapter(adapter);
-		listView.setOnItemClickListener(new OnItemClickListener(){
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				DialogSaveRec dialog = new DialogSaveRec(context, list.get(position));
-				dialog.show();
-			}});
-		
+		listView.setAdapter(adapter);		
 	}
 
 	public static void add(String string) {
@@ -111,6 +103,10 @@ public class RawRecords {
 		}
 		loadFromDatabase(context);
 		adapter.notifyDataSetChanged();
+	}
+
+	public static RawRecord get(int position) {
+		return list.get(position);
 	}
 
 	

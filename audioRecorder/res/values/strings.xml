@@ -6,7 +6,8 @@
 	
     <string name="action_settings">Settings</string>
     <string name="action_add">Добавить</string>
-	<string name="action_list_edit">Редактировать</string>
+	<string name="action_list_edit">Редактировать список</string>
+	<string name="action_tags_edit">Метки</string>
 	<string name="action_delete">Удалить</string>
 		
 	<string name="action_load_text">Загрузить текст</string>
@@ -17,12 +18,17 @@
 	<string name="dialog_save_duration">Длительность:</string>
 	<string name="dialog_save_tags">Метки:</string>
 	
-	
+    <string name="dialog_rec_tags">Метки записи</string>
+		
 	<string name="ok">Ok</string>
 	<string name="no">Нет</string>
 	<string name="yes">Да</string>
 	<string name="cancel">Отмена</string>
-	
+	<string name="create">Создать метку</string>
+	<string name="select">Выбрать метку</string>
+	<string name="close">Закрыть</string>
+	<string name="delete">Удалить</string>
+					
 	<string name="new_record">Новая запись</string>
 	<string name="text_not_loaded">Текст не загружен</string>
 	

@@ -4,6 +4,7 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.view.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -12,7 +13,7 @@ import java.io.*;
 public class MainActivity extends Activity {
 	// States of the application.
 	public enum State {
-		list, list_edit, read, record, play, edit
+		list, list_edit, rec_edit, read, record, play, edit
 	}
 
 	public State mState = State.read;
@@ -43,14 +44,67 @@ public class MainActivity extends Activity {
 		actionBar.setDisplayShowTitleEnabled(false);
 
 		RawRecords.loadFromDatabase(this);
+		ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
 		RawRecords.setAdapter(this,
-				(ListView) findViewById(R.id.listViewRecords));
+				listView);
+		setOnItemCLickListener(listView);
 		
 		checkDirectory(PROGRAMM_FOLDER);
 		checkDirectory(APP_FOLDER);
 		checkDirectory(REC_FOLDER);
 
 		textFileName = getResources().getString(R.string.text_not_loaded);
+	} 
+
+	private void setOnItemCLickListener(ListView listView) {
+		listView.setOnItemClickListener(new OnItemClickListener(){
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				setMenu(State.rec_edit);
+
+				RawRecord rawRecord = RawRecords.get(position);
+				EditText recName = (EditText) findViewById(R.id.dialogsaverecAudioFileName);
+				recName.setText(rawRecord.getAudioFileName());
+
+				TextView t = (TextView) findViewById(R.id.dialogsaverecTextFileName);
+				t.setText(rawRecord.getTextFileName());
+
+				t = (TextView) findViewById(R.id.dialogsaverecDate);
+				t.setText(rawRecord.getDateTimeStr());
+
+				t = (TextView) findViewById(R.id.dialogsaverecDuration);
+				t.setText(rawRecord.getDurationStr());
+				
+				Button btnCreate = (Button)findViewById(R.id.dialogrecCreate);
+				btnCreate.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+						builder.setTitle("Title");
+
+						final EditText input = new EditText(MainActivity.this);
+						builder.setView(input);
+
+						// Set up the buttons
+						builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						       // m_Text = input.getText().toString();
+						    }
+						});
+						builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						        dialog.cancel();
+						    }
+						});
+
+						builder.show();					}});
+				
+
+			}
+		});
 	}
 
 	private void checkDirectory(String dir) {
@@ -68,7 +122,7 @@ public class MainActivity extends Activity {
 		mMenu = menu;
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		setMenu(State.list);
+		setMenu(null);
 		return true;
 	}
 
@@ -93,9 +147,7 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		case R.id.action_add: {
-			setContentView(R.layout.text);
-			setMenu(State.read);
-
+			setMenu(State.read); 
 			return true;
 		}
 		case R.id.action_edit: {
@@ -217,10 +269,11 @@ public class MainActivity extends Activity {
 	}
 
 	void setContentViewList() {
-		setContentView(R.layout.activity_main);
-		setMenu(State.list);
+		setMenu(State.list); 
+		ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
 		RawRecords.setAdapter(this,
-				(ListView) findViewById(R.id.listViewRecords));
+				listView);
+		setOnItemCLickListener(listView);
 	}
 
 	@Override
@@ -238,6 +291,9 @@ public class MainActivity extends Activity {
 				RawRecords.setEdit(
 						(ListView) findViewById(R.id.listViewRecords), false);
 				return true;
+			} else if (mState == State.rec_edit) {
+				setContentViewList();
+				return true;
 			}
 		}	
 		return super.onKeyDown(keyCode, event);
@@ -245,7 +301,11 @@ public class MainActivity extends Activity {
 
 	private void setMenu(State state) {
 		mState = state;
-		if (mState == State.list) {
+		if (mState == State.list || mState == null) {
+			if (mState != null)
+				setContentView(R.layout.activity_main);
+			mState = State.list;
+			
 			mMenu.setGroupVisible(R.id.group_list, true);
 			mMenu.setGroupVisible(R.id.group_record, false);
 			mMenu.setGroupVisible(R.id.group_list_edit, false);
@@ -253,6 +313,15 @@ public class MainActivity extends Activity {
 			actionBar.setIcon(R.drawable.mic);
 
 		} else if (mState == State.list_edit) {
+			mMenu.setGroupVisible(R.id.group_list, false);
+			mMenu.setGroupVisible(R.id.group_record, false);
+			mMenu.setGroupVisible(R.id.group_list_edit, true);
+
+			actionBar.setIcon(R.drawable.ok1);
+			
+		} else if (mState == State.rec_edit) {
+			setContentView(R.layout.rec);
+			
 			mMenu.setGroupVisible(R.id.group_list, false);
 			mMenu.setGroupVisible(R.id.group_record, false);
 			mMenu.setGroupVisible(R.id.group_list_edit, true);
@@ -297,6 +366,7 @@ public class MainActivity extends Activity {
 				// actionBar.setIcon(R.drawable.pencil);
 				// actionBar.setTitle("");
 			} else if (state == State.read) {
+				setContentView(R.layout.text);
 				// mMenu.setGroupVisible(R.id.group_edit, false);
 				mMenu.setGroupVisible(R.id.group_record, true);
 

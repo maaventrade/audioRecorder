@@ -1,8 +1,11 @@
-package com.alexmochalov.audiorecorder;
+package com.alexmochalov.tag;
 
 import android.content.*;
+import android.database.Cursor;
 
 import java.text.*;
+
+import com.alexmochalov.audiorecorder.RecProvider;
 
 public class Tag {
 	long mId;
@@ -51,4 +54,32 @@ public class Tag {
 		//query.close();
 	}
 
+	public void saveToDatabase(Context context) {
+	}
+
+	/**
+	 * Adds link between the Tag and the Record to the database
+	 * 
+	 * @param context
+	 * @param id - database identifier of the Record 
+	 */
+	public void addLinkToDatabase(Context context, int id) {
+		ContentResolver cr = context.getContentResolver();
+
+		RecProvider.currentTable = "tr";
+		
+		ContentValues values = new ContentValues();
+		
+		String w = RecProvider.KEY_ID_REC + " = \"" + id + "\" and "+
+				RecProvider.KEY_ID_TAG + " = "+mId;
+		
+		Cursor query = cr.query(RecProvider.CONTENT_URI, null, w,
+				null, null);
+		
+		if (query.getCount()==0) { // Check the uniqueness of the link 
+			values.put (RecProvider.KEY_ID_REC, id);
+			values.put (RecProvider.KEY_ID_TAG, mId);
+			cr.insert(RecProvider.CONTENT_URI, values);
+		}	
+	}	
 }

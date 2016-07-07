@@ -1,11 +1,19 @@
-package com.alexmochalov.audiorecorder;
+package com.alexmochalov.rec;
 import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
+
 import java.util.*;
+
+import com.alexmochalov.audiorecorder.R;
+import com.alexmochalov.audiorecorder.R.id;
+import com.alexmochalov.audiorecorder.R.layout;
+import com.alexmochalov.audiorecorder.R.string;
+import com.alexmochalov.tag.ArrayAdapterTags;
+import com.alexmochalov.tag.Tag;
 
 public class DialogSaveRec extends Dialog
 {
@@ -59,8 +67,8 @@ public class DialogSaveRec extends Dialog
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 										int position, long id) {
-					DialogRecTags dialog = new DialogRecTags(mContext, recName.getText().toString());
-					dialog.show();
+					//DialogRecTags dialog = new DialogRecTags(mContext, recName.getText().toString());
+					//dialog.show();
 				}});
 		
 		/*

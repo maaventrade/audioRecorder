@@ -1,9 +1,14 @@
-package com.alexmochalov.audiorecorder;
+package com.alexmochalov.rec;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+
+import com.alexmochalov.audiorecorder.MainActivity;
+import com.alexmochalov.audiorecorder.R;
+import com.alexmochalov.audiorecorder.RecProvider;
+import com.alexmochalov.audiorecorder.R.layout;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -30,7 +35,7 @@ public class RawRecords {
 	{
 	}	
 	
-	static void setAdapter(final Context context, ListView listView ){
+	public static void setAdapter(final Context context, ListView listView ){
 		ArrayAdapterRecords adapter = new ArrayAdapterRecords(context,
 				  R.layout.raw, list);
 		listView.setAdapter(adapter);		
@@ -46,43 +51,55 @@ public class RawRecords {
 	}
 	
 	public static void loadFromDatabase(Context context){
-		
+
 		ContentResolver cr = context.getContentResolver();
 	
-		String[] result_columns = new String[] {
-				RecProvider.KEY_ID,
-				RecProvider.AUDIOFILENAME,
-				RecProvider.TEXTFILENAME,
-				RecProvider.DATE,
-				RecProvider.DURATION
-		};
-		
 		String where = null;
 		String whereArgs[] = null;
-		String order = null;
+		String order = "REC._id DESC";
 		
-		RecProvider.currentTable = "records";
+		RecProvider.currentTable = "records as REC left join tr as TR on REC._id = TR._idr left join tags as TG on TG._id = TR._idt ";
+	    String result_columns[] = { "REC.audiofilename",
+				 "REC.textfilename",
+				 "REC.duration",
+				 "REC.date",
+				 "REC._id as rec_id",
+				 "TG._id as tag_id",
+				 "TG.text as tag_text"};
 		
 		Cursor cursor = cr.query(RecProvider.CONTENT_URI,
 				result_columns, where, whereArgs, order);
 		
 		list.clear();
-		
+		int id0 = -1;
 		while (cursor.moveToNext()) {
-			int id = cursor.getInt(cursor.getColumnIndexOrThrow
-					(RecProvider.KEY_ID));
-			String audioFileName = cursor.getString(cursor.getColumnIndexOrThrow
-					(RecProvider.AUDIOFILENAME));
-			String textFileName = cursor.getString(cursor.getColumnIndexOrThrow
-					(RecProvider.TEXTFILENAME));
-			long date = cursor.getLong(cursor.getColumnIndexOrThrow
-					(RecProvider.DATE));
-			long duration = cursor.getLong(cursor.getColumnIndexOrThrow
-					(RecProvider.DURATION));
 			
-			// Create new Event 
-			RawRecord record = new RawRecord(id, audioFileName, textFileName, date, duration);
-			list.add(record);
+			int id = cursor.getInt(cursor.getColumnIndexOrThrow
+					("rec_id"));
+			int tag_id = cursor.getInt(cursor.getColumnIndexOrThrow
+					("tag_id"));
+			String tag_text = cursor.getString(cursor.getColumnIndexOrThrow
+					("tag_text"));
+			
+			String audioFileName = cursor.getString(cursor.getColumnIndexOrThrow
+					("audiofilename"));
+			String textFileName = cursor.getString(cursor.getColumnIndexOrThrow
+					("textfilename"));
+			long date = cursor.getLong(cursor.getColumnIndexOrThrow
+					("date"));
+			long duration = cursor.getLong(cursor.getColumnIndexOrThrow
+					("duration"));
+			
+			// Create new Event
+			if (id0 != id){
+				RawRecord record = new RawRecord(id, audioFileName, textFileName, date, duration,  tag_id, tag_text);
+				list.add(record);
+				id0 = id;
+			} else {
+				RawRecord record =  list.get(list.size()-1);
+				record.addTag(tag_id, tag_text);
+			}
+			
 		}
 		
 		cursor.close();

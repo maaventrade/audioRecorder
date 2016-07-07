@@ -1,4 +1,4 @@
-package com.alexmochalov.audiorecorder;
+package com.alexmochalov.tag;
 
 import android.content.*;
 import android.view.*;
@@ -8,21 +8,25 @@ import android.widget.CheckBox.*;
 import java.text.*;
 import java.util.*;
 
+import com.alexmochalov.audiorecorder.R;
+import com.alexmochalov.audiorecorder.R.id;
+import com.alexmochalov.audiorecorder.R.layout;
+
 /**
  * 
  * @author Alexey Mochalov
  * This Adapter shows the list of the audio files
  *
  */
-public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
-	private ArrayList<RawRecord> values;
+public class ArrayAdapterTags extends ArrayAdapter<Tag>{
+	private ArrayList<Tag> values;
 	Context context;
 	int resource;
 	
-	boolean checkBoxIsVisible = false;
+	boolean checkBoxIsVisible = true;
 	int checkBoxWidth = 0;
 
-	public ArrayAdapterRecords(Context context, int res, ArrayList<RawRecord> values){
+	public ArrayAdapterTags(Context context, int res, ArrayList<Tag> values){
 		super(context, res, values);
 		this.values = values;
 		this.resource = res;
@@ -34,24 +38,15 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 		if (convertView == null) { 
 			LayoutInflater inflater = (LayoutInflater) context.
 				getSystemService(Context.LAYOUT_INFLATER_SERVICE); 
-			convertView = inflater.inflate(R.layout.raw, null);
+			convertView = inflater.inflate(R.layout.raw_tag, null);
 		}
 
-		RawRecord entry = values.get(position);
+		Tag entry = values.get(position);
 
-		TextView text = (TextView)convertView.findViewById(R.id.textViewAudioFile);
-		text.setText(entry.audioFileName);
+		TextView text = (TextView)convertView.findViewById(R.id.raw_tag_tag);
+		text.setText(entry.mText);
 
-		text = (TextView)convertView.findViewById(R.id.textViewTextFile);
-		text.setText(entry.textFileName);
-		
-		text = (TextView)convertView.findViewById(R.id.textViewDateTime);
-		text.setText(entry.getDateTimeStr());
-		
-		text = (TextView)convertView.findViewById(R.id.textViewDuration);
-		text.setText(entry.getDurationStr());
-		
-		CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.rawCheckBox1);
+		CheckBox checkBox = (CheckBox)convertView.findViewById(R.id.raw_tag_check_box);
 		if (checkBoxIsVisible){
 			checkBox.setVisibility(View.VISIBLE);
 			checkBox.setWidth(80); /// ????

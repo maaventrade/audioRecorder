@@ -10,6 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.*;
 
+import com.alexmochalov.rec.RawRecord;
+import com.alexmochalov.rec.RawRecords;
+
 public class MainActivity extends Activity {
 	// States of the application.
 	public enum State {
@@ -32,6 +35,8 @@ public class MainActivity extends Activity {
 	ActionBar actionBar;
 
 	String textFileName;
+	
+	RawRecord currentRawRecord;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +49,6 @@ public class MainActivity extends Activity {
 		actionBar.setDisplayShowTitleEnabled(false);
 
 		RawRecords.loadFromDatabase(this);
-		ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
-		RawRecords.setAdapter(this,
-				listView);
-		setOnItemCLickListener(listView);
 		
 		checkDirectory(PROGRAMM_FOLDER);
 		checkDirectory(APP_FOLDER);
@@ -62,8 +63,8 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				setMenu(State.rec_edit);
-				RawRecord rawRecord = RawRecords.get(position);
-				rawRecord.edit(MainActivity.this,
+				currentRawRecord = RawRecords.get(position);
+				currentRawRecord.edit(MainActivity.this,
 			   		findViewById(android.R.id.content));
 				
 
@@ -86,7 +87,7 @@ public class MainActivity extends Activity {
 		mMenu = menu;
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		setMenu(null);
+		setMenu(State.list);
 		return true;
 	}
 
@@ -105,6 +106,12 @@ public class MainActivity extends Activity {
 		case android.R.id.home: {
 			if (mState == State.list_edit) {
 				setMenu(State.list);
+				RawRecords.setEdit(
+						(ListView) findViewById(R.id.listViewRecords), false);
+			} else
+			if (mState == State.rec_edit) {
+				setMenu(State.list);
+				//currentRawRecord.saveToDatabese(MainActivity.this);
 				RawRecords.setEdit(
 						(ListView) findViewById(R.id.listViewRecords), false);
 			}
@@ -185,6 +192,7 @@ public class MainActivity extends Activity {
 				RawRecord rawRecord = new RawRecord(0, input.getText()
 						.toString(), textFileName, Media.getTimeStarting()
 						+ Media.getDuration(), Media.getDuration());
+				
 				RawRecords.add(rawRecord);
 				rawRecord.addToDatabase(MainActivity.this);
 				setContentViewList();
@@ -265,9 +273,13 @@ public class MainActivity extends Activity {
 
 	private void setMenu(State state) {
 		mState = state;
-		if (mState == State.list || mState == null) {
-			if (mState != null)
-				setContentView(R.layout.activity_main);
+		if (mState == State.list) {
+			setContentView(R.layout.activity_main);
+			ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
+			RawRecords.setAdapter(this,
+					listView);			
+			setOnItemCLickListener(listView);
+			
 			mState = State.list;
 			
 			mMenu.setGroupVisible(R.id.group_list, true);

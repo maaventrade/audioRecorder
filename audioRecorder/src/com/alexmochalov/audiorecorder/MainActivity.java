@@ -62,45 +62,9 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				setMenu(State.rec_edit);
-
 				RawRecord rawRecord = RawRecords.get(position);
-				EditText recName = (EditText) findViewById(R.id.dialogsaverecAudioFileName);
-				recName.setText(rawRecord.getAudioFileName());
-
-				TextView t = (TextView) findViewById(R.id.dialogsaverecTextFileName);
-				t.setText(rawRecord.getTextFileName());
-
-				t = (TextView) findViewById(R.id.dialogsaverecDate);
-				t.setText(rawRecord.getDateTimeStr());
-
-				t = (TextView) findViewById(R.id.dialogsaverecDuration);
-				t.setText(rawRecord.getDurationStr());
-				
-				Button btnCreate = (Button)findViewById(R.id.dialogrecCreate);
-				btnCreate.setOnClickListener(new OnClickListener(){
-					@Override
-					public void onClick(View v) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-						builder.setTitle("Title");
-
-						final EditText input = new EditText(MainActivity.this);
-						builder.setView(input);
-
-						// Set up the buttons
-						builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
-						    @Override
-						    public void onClick(DialogInterface dialog, int which) {
-						       // m_Text = input.getText().toString();
-						    }
-						});
-						builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-						    @Override
-						    public void onClick(DialogInterface dialog, int which) {
-						        dialog.cancel();
-						    }
-						});
-
-						builder.show();					}});
+				rawRecord.edit(MainActivity.this,
+			   		findViewById(android.R.id.content));
 				
 
 			}

@@ -1,8 +1,13 @@
 package com.alexmochalov.audiorecorder;
 
+import android.app.*;
 import android.content.*;
-
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import com.alexmochalov.audiorecorder.*;
 import java.text.*;
+import java.util.*;
 
 public class RawRecord {
 	int id;
@@ -10,6 +15,7 @@ public class RawRecord {
 	String textFileName;
 	long dateTime;
 	long duration;
+	private ArrayList<Tag> tags = new ArrayList<Tag>();
 	
 	boolean selected = false;	
 	
@@ -23,6 +29,58 @@ public class RawRecord {
 		this.textFileName = textFileName;
 		this.dateTime = dateTime;
 		this.duration = duration;
+		tags.add(new Tag("1111"));
+	}
+
+	public void edit(final Context context, View mainView)
+	{
+		EditText recName = (EditText)mainView.findViewById(R.id.dialogsaverecAudioFileName);
+		recName.setText(audioFileName);
+
+		TextView t = (TextView)mainView.findViewById(R.id.dialogsaverecTextFileName);
+		t.setText(textFileName);
+
+		t = (TextView)mainView.findViewById(R.id.dialogsaverecDate);
+		t.setText(getDateTimeStr());
+
+		t = (TextView)mainView.findViewById(R.id.dialogsaverecDuration);
+		t.setText(getDurationStr());
+
+		ListView listView = (ListView)mainView.findViewById(R.id.dialogrecListViewTags);
+
+		ArrayAdapterTags adapter = new ArrayAdapterTags(context,
+														R.layout.raw_tag
+														, tags);
+		listView.setAdapter(adapter);
+
+
+		Button btnCreate = (Button)mainView.findViewById(R.id.dialogrecCreate);
+		btnCreate.setOnClickListener(new OnClickListener(){
+				@Override
+				public void onClick(View v) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setTitle("Title");
+
+					final EditText input = new EditText(context);
+					builder.setView(input);
+
+					// Set up the buttons
+					builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { 
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						     	String name = input.getText().toString();
+								Tag newTag = new Tag(context, name);
+						    }
+						});
+					builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						    @Override
+						    public void onClick(DialogInterface dialog, int which) {
+						        dialog.cancel();
+						    }
+						});
+
+					builder.show();					}});
+		
 	}
 
 	public CharSequence getDateTimeStr()

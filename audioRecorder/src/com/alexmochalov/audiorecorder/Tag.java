@@ -5,7 +5,7 @@ import android.content.*;
 import java.text.*;
 
 public class Tag {
-	int mId;
+	long mId;
 	String mText;
 	
 	boolean selected = false;	
@@ -19,6 +19,11 @@ public class Tag {
 		mText = text;
 	}
 
+	public Tag(Context context, String text) {
+		mText = text;
+		addToDatabase(context);
+	}
+	
 	public String getText()
 	{
 		return mText;
@@ -41,6 +46,7 @@ public class Tag {
 			values.put (RecProvider.TEXT, mText);
 			
 			cr.insert(RecProvider.CONTENT_URI, values);
+			mId = RecProvider.newRowID;
 		//}	
 		//query.close();
 	}

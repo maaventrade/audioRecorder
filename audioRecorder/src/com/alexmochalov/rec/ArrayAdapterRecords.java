@@ -18,15 +18,15 @@ import com.alexmochalov.audiorecorder.R.layout;
  * This Adapter shows the list of the audio files
  *
  */
-public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
-	private ArrayList<RawRecord> values;
+public class ArrayAdapterRecords extends ArrayAdapter<Rec>{
+	private ArrayList<Rec> values;
 	Context context;
 	int resource;
 	
 	boolean checkBoxIsVisible = false;
 	int checkBoxWidth = 0;
 
-	public ArrayAdapterRecords(Context context, int res, ArrayList<RawRecord> values){
+	public ArrayAdapterRecords(Context context, int res, ArrayList<Rec> values){
 		super(context, res, values);
 		this.values = values;
 		this.resource = res;
@@ -41,7 +41,7 @@ public class ArrayAdapterRecords extends ArrayAdapter<RawRecord>{
 			convertView = inflater.inflate(R.layout.raw, null);
 		}
 
-		RawRecord entry = values.get(position);
+		Rec entry = values.get(position);
 
 		TextView text = (TextView)convertView.findViewById(R.id.textViewAudioFile);
 		text.setText(entry.audioFileName);

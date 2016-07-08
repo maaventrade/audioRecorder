@@ -10,8 +10,7 @@ import com.alexmochalov.audiorecorder.RecProvider;
 public class Tag {
 	long mId;
 	String mText;
-	
-	boolean selected = false;	
+	boolean mSelected = false;	
 	
 	public Tag(String text) {
 		mText = text;
@@ -25,6 +24,11 @@ public class Tag {
 	public Tag(Context context, String text) {
 		mText = text;
 		addToDatabase(context);
+	}
+	
+	public boolean isSelected()
+	{
+		return mSelected;
 	}
 	
 	public String getText()
@@ -81,5 +85,13 @@ public class Tag {
 			values.put (RecProvider.KEY_ID_TAG, mId);
 			cr.insert(RecProvider.CONTENT_URI, values);
 		}	
+	}
+
+	public long getId() {
+		return mId;
+	}
+
+	public String getAudioFileName() {
+		return null;
 	}	
 }

@@ -23,7 +23,7 @@ public class ArrayAdapterTags extends ArrayAdapter<Tag>{
 	Context context;
 	int resource;
 	
-	boolean checkBoxIsVisible = true;
+	boolean checkBoxIsVisible = false;
 	int checkBoxWidth = 0;
 
 	public ArrayAdapterTags(Context context, int res, ArrayList<Tag> values){
@@ -33,6 +33,10 @@ public class ArrayAdapterTags extends ArrayAdapter<Tag>{
 		this.context = context;
 	}
 
+	public void setCheckBoxIsVisible(boolean visible){
+		checkBoxIsVisible = visible;
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) { 
@@ -61,7 +65,7 @@ public class ArrayAdapterTags extends ArrayAdapter<Tag>{
 		checkBox.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
 		    public void onCheckedChanged(CompoundButton buttonView,
 			        boolean isChecked) {
-		    	values.get((Integer)buttonView.getTag()).selected = isChecked;
+		    	values.get((Integer)buttonView.getTag()).mSelected = isChecked;
 			    }
 		});
 		

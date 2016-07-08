@@ -10,8 +10,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import java.io.*;
 
-import com.alexmochalov.rec.RawRecord;
-import com.alexmochalov.rec.RawRecords;
+import com.alexmochalov.rec.DialogEditRec;
+import com.alexmochalov.rec.Rec;
+import com.alexmochalov.rec.Records;
 
 public class MainActivity extends Activity {
 	// States of the application.
@@ -36,7 +37,7 @@ public class MainActivity extends Activity {
 
 	String textFileName;
 	
-	RawRecord currentRawRecord;
+	Rec currentRecord;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MainActivity extends Activity {
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		RawRecords.loadFromDatabase(this);
+		Records.loadFromDatabase(this);
 		
 		checkDirectory(PROGRAMM_FOLDER);
 		checkDirectory(APP_FOLDER);
@@ -62,10 +63,13 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				setMenu(State.rec_edit);
-				currentRawRecord = RawRecords.get(position);
-				currentRawRecord.edit(MainActivity.this,
-			   		findViewById(android.R.id.content));
+				//setMenu(State.rec_edit);
+				currentRecord = Records.get(position);
+				DialogEditRec dialogEditRec = new DialogEditRec(MainActivity.this, currentRecord);
+				dialogEditRec.show();
+				
+				//currentRecord.edit(MainActivity.this,
+			   	//	findViewById(android.R.id.content));
 				
 
 			}
@@ -106,13 +110,19 @@ public class MainActivity extends Activity {
 		case android.R.id.home: {
 			if (mState == State.list_edit) {
 				setMenu(State.list);
-				RawRecords.setEdit(
+				Records.setEdit(
 						(ListView) findViewById(R.id.listViewRecords), false);
 			} else
 			if (mState == State.rec_edit) {
 				setMenu(State.list);
-				//currentRawRecord.saveToDatabese(MainActivity.this);
-				RawRecords.setEdit(
+				//currentRecord.saveToDatabese(MainActivity.this);
+				Records.setEdit(
+						(ListView) findViewById(R.id.listViewRecords), false);
+			} else 
+				if (mState == State.rec_edit) {
+				setMenu(State.list);
+				// currentRecord.saveToDatabese(MainActivity.this);
+				Records.setEdit(
 						(ListView) findViewById(R.id.listViewRecords), false);
 			}
 			return true;
@@ -123,7 +133,7 @@ public class MainActivity extends Activity {
 		}
 		case R.id.action_edit: {
 			setMenu(State.list_edit);
-			RawRecords.setEdit((ListView) findViewById(R.id.listViewRecords),
+			Records.setEdit((ListView) findViewById(R.id.listViewRecords),
 					true);
 			return true;
 		}
@@ -131,7 +141,7 @@ public class MainActivity extends Activity {
 			return true;
 		}
 		case R.id.action_delete:{
-			RawRecords.delete(this);
+			Records.delete(this);
 			return true;
 		}
 		case R.id.action_rec:
@@ -189,15 +199,15 @@ public class MainActivity extends Activity {
 					return;
 				}
 
-				RawRecord rawRecord = new RawRecord(0, input.getText()
+				Rec rawRecord = new Rec(0, input.getText()
 						.toString(), textFileName, Media.getTimeStarting()
 						+ Media.getDuration(), Media.getDuration());
 				
-				RawRecords.add(rawRecord);
+				Records.add(rawRecord);
 				rawRecord.addToDatabase(MainActivity.this);
 				setContentViewList();
 				// RawRecords.notify((ListView)findViewById(R.id.listViewRecords));
-				RawRecords.loadFromDatabase(MainActivity.this);
+				Records.loadFromDatabase(MainActivity.this);
 				dialog.dismiss();
 			}
 		});
@@ -243,7 +253,7 @@ public class MainActivity extends Activity {
 	void setContentViewList() {
 		setMenu(State.list); 
 		ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
-		RawRecords.setAdapter(this,
+		Records.setAdapter(this,
 				listView);
 		setOnItemCLickListener(listView);
 	}
@@ -260,7 +270,7 @@ public class MainActivity extends Activity {
 				
 			} else if (mState == State.list_edit) {
 				setMenu(State.list);
-				RawRecords.setEdit(
+				Records.setEdit(
 						(ListView) findViewById(R.id.listViewRecords), false);
 				return true;
 			} else if (mState == State.rec_edit) {
@@ -276,7 +286,7 @@ public class MainActivity extends Activity {
 		if (mState == State.list) {
 			setContentView(R.layout.activity_main);
 			ListView listView  = (ListView) findViewById(R.id.listViewRecords); 
-			RawRecords.setAdapter(this,
+			Records.setAdapter(this,
 					listView);			
 			setOnItemCLickListener(listView);
 			
@@ -321,8 +331,7 @@ public class MainActivity extends Activity {
 				mMenu.findItem(R.id.action_stop).setIcon(R.drawable.stopc);
 				mMenu.findItem(R.id.action_stop).setEnabled(true);
 
-				// actionBar.setIcon(R.drawable.pencil);
-				// actionBar.setTitle("");
+				actionBar.setIcon(R.drawable.ok1);
 			} else if (state == State.play) {
 				// mMenu.setGroupVisible(R.id.group_edit, false);
 				mMenu.setGroupVisible(R.id.group_record, true);
@@ -339,8 +348,7 @@ public class MainActivity extends Activity {
 				mMenu.findItem(R.id.action_pause).setIcon(R.drawable.pausec);
 				mMenu.findItem(R.id.action_pause).setEnabled(true);
 
-				// actionBar.setIcon(R.drawable.pencil);
-				// actionBar.setTitle("");
+				actionBar.setIcon(R.drawable.ok1);
 			} else if (state == State.read) {
 				setContentView(R.layout.text);
 				// mMenu.setGroupVisible(R.id.group_edit, false);
@@ -358,10 +366,7 @@ public class MainActivity extends Activity {
 				mMenu.findItem(R.id.action_pause).setIcon(R.drawable.pauseu);
 				mMenu.findItem(R.id.action_pause).setEnabled(false);
 
-				// actionBar.setIcon(R.drawable.pencil);
-
-				// actionBar.setTitle("");
-				// actionBar.setSubtitle("");
+				actionBar.setIcon(R.drawable.ok1);
 			} else {
 				// mMenu.setGroupVisible(R.id.group_edit, true);
 				// mMenu.setGroupVisible(R.id.group_record, false);

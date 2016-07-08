@@ -19,8 +19,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class RawRecords {
-	private static ArrayList<RawRecord> list = new ArrayList<RawRecord>();
+public class Records {
+	private static ArrayList<Rec> list = new ArrayList<Rec>();
 
 	private static ArrayAdapterRecords adapter;
 
@@ -31,7 +31,7 @@ public class RawRecords {
 		adapter.notifyDataSetChanged();
 	}
 
-	public static void add(RawRecord rawRecord)
+	public static void add(Rec rawRecord)
 	{
 	}	
 	
@@ -42,7 +42,7 @@ public class RawRecords {
 	}
 
 	public static void add(String string) {
-		list.add(new RawRecord(string));
+		list.add(new Rec(string));
 	}
 	
 	public static void notify(ListView listView){
@@ -65,7 +65,8 @@ public class RawRecords {
 				 "REC.date",
 				 "REC._id as rec_id",
 				 "TG._id as tag_id",
-				 "TG.text as tag_text"};
+				 "TG.text as tag_text",
+				 "TR._id as tr_id" };
 		
 		Cursor cursor = cr.query(RecProvider.CONTENT_URI,
 				result_columns, where, whereArgs, order);
@@ -78,6 +79,8 @@ public class RawRecords {
 					("rec_id"));
 			int tag_id = cursor.getInt(cursor.getColumnIndexOrThrow
 					("tag_id"));
+			int tr_id = cursor.getInt(cursor.getColumnIndexOrThrow
+					("tr_id"));
 			String tag_text = cursor.getString(cursor.getColumnIndexOrThrow
 					("tag_text"));
 			
@@ -92,12 +95,12 @@ public class RawRecords {
 			
 			// Create new Event
 			if (id0 != id){
-				RawRecord record = new RawRecord(id, audioFileName, textFileName, date, duration,  tag_id, tag_text);
+				Rec record = new Rec(id, audioFileName, textFileName, date, duration,  tag_id, tag_text, tr_id);
 				list.add(record);
 				id0 = id;
 			} else {
-				RawRecord record =  list.get(list.size()-1);
-				record.addTag(tag_id, tag_text);
+				Rec record =  list.get(list.size()-1);
+				record.addTag(tag_id, tag_text, tr_id);
 			}
 			
 		}
@@ -107,7 +110,8 @@ public class RawRecords {
 	}
 
 	public static void delete(Context context) {
-		for (RawRecord r : list){
+		RecProvider.currentTable = "records";
+		for (Rec r : list){
 			if (r.selected){
 				ContentResolver cr = context.getContentResolver();
 				String w = RecProvider.KEY_ID + " = " + r.id;
@@ -122,7 +126,7 @@ public class RawRecords {
 		adapter.notifyDataSetChanged();
 	}
 
-	public static RawRecord get(int position) {
+	public static Rec get(int position) {
 		return list.get(position);
 	}
 

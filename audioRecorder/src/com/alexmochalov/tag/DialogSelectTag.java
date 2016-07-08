@@ -45,6 +45,7 @@ public class DialogSelectTag extends Dialog
 		ArrayAdapterTags adapter = new ArrayAdapterTags(mContext,
 												R.layout.raw_tag
 												, list);
+		adapter.setCheckBoxIsVisible(false);
 		listView.setAdapter(adapter);
 		
 		listView.setOnItemClickListener(new OnItemClickListener(){

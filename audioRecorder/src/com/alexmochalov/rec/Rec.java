@@ -14,24 +14,26 @@ import com.alexmochalov.tag.DialogSelectTag;
 import com.alexmochalov.tag.DialogSelectTag.MyCallback;
 import com.alexmochalov.tag.Tag;
 
+import java.io.File;
 import java.text.*;
 import java.util.*;
 
-public class RawRecord {
+public class Rec {
 	int id;
 	String audioFileName;
 	String textFileName;
 	long dateTime;
 	long duration;
-	private ArrayList<Tag> tags = new ArrayList<Tag>();
+	ArrayList<Tag> tags = new ArrayList<Tag>();
+	ArrayList<Integer> ids = new ArrayList<Integer>();
 	
 	boolean selected = false;	
 	
-	public RawRecord(String pAudioFileName) {
+	public Rec(String pAudioFileName) {
 		audioFileName = pAudioFileName;
 	}
 	
-	public RawRecord(int id, String audioFileName, String textFileName, long dateTime, long duration) {
+	public Rec(int id, String audioFileName, String textFileName, long dateTime, long duration) {
 		this.id = id;
 		this.audioFileName = audioFileName;
 		this.textFileName = textFileName;
@@ -40,15 +42,28 @@ public class RawRecord {
 		
 	}
 	
-	public RawRecord(int id, String audioFileName, String textFileName, long dateTime, long duration, int tag_id, String tag_text) {
+	/**
+	 * Create and fill a new RawRecord and create first Tag
+	 *  
+	 * @param id - identifier of this record in the database
+	 * @param audioFileName - name of the audio file in the /rec
+	 * @param textFileName - neme of the text file
+	 * @param dateTime - date of the recording
+	 * @param duration - duration of the record
+	 * @param tag_id - identifier of the first tag
+	 * @param tag_text - text of the first tag
+	 */
+	public Rec(int id, String audioFileName, String textFileName, long dateTime, long duration, int tag_id, String tag_text, int tr_id) {
 		this.id = id;
 		this.audioFileName = audioFileName;
 		this.textFileName = textFileName;
 		this.dateTime = dateTime;
 		this.duration = duration;
 		
-		if (tag_id > 0)
+		if (tag_id > 0){
 			tags.add(new Tag(tag_id, tag_text));
+			ids.add(tr_id);
+		}	
 	}
 
 	public void edit(final Context context, View mainView)
@@ -127,6 +142,25 @@ public class RawRecord {
 
 		});
 
+		// Delete Tag from list
+		Button btnDelete = (Button) mainView.findViewById(R.id.dialogrecDelete);
+		btnDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				RecProvider.currentTable = "tr";
+				for (int i = tags.size()-1; i >= 0; i--){
+					if (tags.get(i).isSelected()){
+						ContentResolver cr = context.getContentResolver();
+						String w = RecProvider.KEY_ID + " = " + ids.get(i);
+						cr.delete(RecProvider.CONTENT_URI, w, null);
+						tags.remove(tags.get(i));
+					}
+				}
+				adapter.notifyDataSetChanged();
+			}
+
+		});
+
 	}
 
 	public CharSequence getDateTimeStr() {
@@ -196,8 +230,10 @@ public class RawRecord {
 	}	
 */
 
-	public void addTag(int tag_id, String tag_text) {
-		if (tag_id > 0)
+	public void addTag(int tag_id, String tag_text, int tr_id) {
+		if (tag_id > 0){
 			tags.add(new Tag(tag_id, tag_text));
+			ids.add(tr_id);
+		}	
 	}	
 }

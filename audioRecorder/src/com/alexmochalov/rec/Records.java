@@ -41,9 +41,9 @@ public class Records {
 		listView.setAdapter(adapter);		
 	}
 
-	public static void add(String string) {
-		list.add(new Rec(string));
-	}
+	//public static void add(String string) {
+	//	list.add(new Rec(string));
+	//}
 	
 	public static void notify(ListView listView){
 		ArrayAdapterRecords adapter = (ArrayAdapterRecords)listView.getAdapter();

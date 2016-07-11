@@ -78,15 +78,15 @@ public final class R {
         public static final int voidf=0x7f020022;
     }
     public static final class id {
-        public static final int action_add=0x7f090013;
-        public static final int action_delete=0x7f090018;
-        public static final int action_edit=0x7f090015;
-        public static final int action_pause=0x7f09001d;
-        public static final int action_play=0x7f09001b;
-        public static final int action_rec=0x7f09001a;
-        public static final int action_settings=0x7f090016;
-        public static final int action_stop=0x7f09001c;
-        public static final int action_submenu=0x7f090014;
+        public static final int action_add=0x7f090014;
+        public static final int action_delete=0x7f090019;
+        public static final int action_edit=0x7f090016;
+        public static final int action_pause=0x7f09001e;
+        public static final int action_play=0x7f09001c;
+        public static final int action_rec=0x7f09001b;
+        public static final int action_settings=0x7f090017;
+        public static final int action_stop=0x7f09001d;
+        public static final int action_submenu=0x7f090015;
         public static final int dialogrecCreate=0x7f09000e;
         public static final int dialogrecDelete=0x7f090010;
         public static final int dialogrecListViewTags=0x7f090011;
@@ -95,14 +95,15 @@ public final class R {
         public static final int dialogsaverecDate=0x7f09000c;
         public static final int dialogsaverecDuration=0x7f09000d;
         public static final int dialogsaverecTextFileName=0x7f09000b;
-        public static final int group_list=0x7f090012;
-        public static final int group_list_edit=0x7f090017;
-        public static final int group_record=0x7f090019;
+        public static final int group_list=0x7f090013;
+        public static final int group_list_edit=0x7f090018;
+        public static final int group_record=0x7f09001a;
         public static final int linearLayout1=0x7f090002;
         public static final int listViewRecords=0x7f090000;
         public static final int rawCheckBox1=0x7f090003;
         public static final int raw_tag_check_box=0x7f090008;
         public static final int raw_tag_tag=0x7f090009;
+        public static final int recButtonNo=0x7f090012;
         public static final int tagsList=0x7f090001;
         public static final int textViewAudioFile=0x7f090004;
         public static final int textViewDateTime=0x7f090005;

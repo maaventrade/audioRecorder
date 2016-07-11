@@ -3,16 +3,15 @@ package com.alexmochalov.audiorecorder;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.util.*;
 import android.view.*;
-import android.view.View.OnClickListener;
+import android.view.View.*;
 import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
-
+import android.widget.AdapterView.*;
+import com.alexmochalov.rec.*;
 import java.io.*;
 
-import com.alexmochalov.rec.DialogEditRec;
-import com.alexmochalov.rec.Rec;
-import com.alexmochalov.rec.Records;
+import android.view.View.OnClickListener;
 
 public class MainActivity extends Activity {
 	// States of the application.
@@ -238,7 +237,7 @@ public class MainActivity extends Activity {
 		alertDialog.show();
 	}
 
-	private CharSequence newRecordName() {
+	private String newRecordName() {
 		for (int i = 0; i < 999999; i++) {
 			File file = new File(REC_FOLDER + "/"
 					+ getResources().getString(R.string.new_record) + i
@@ -262,8 +261,25 @@ public class MainActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (mState == State.read) {
-				if (Media.getDuration() > 0){
-					dialogSaveRecord();
+				if (Media.getDuration() == 0){
+				
+					
+					currentRecord = new Rec(newRecordName());
+					final DialogEditRec dialogEditRec = new DialogEditRec(MainActivity.this, currentRecord);
+					Button b = (Button)dialogEditRec.findViewById(R.id.recButtonNo);
+					Log.d("","b"+b);
+					b.setOnClickListener(new OnClickListener(){
+							@Override
+							public void onClick(View p1)
+							{
+								setContentViewList();
+								dialogEditRec.dismiss();
+							}
+						});
+					
+					dialogEditRec.show();
+					
+					
 				} else
 					setContentViewList();
 				return true;

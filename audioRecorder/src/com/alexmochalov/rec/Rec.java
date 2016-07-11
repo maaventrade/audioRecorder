@@ -31,6 +31,9 @@ public class Rec {
 	
 	public Rec(String pAudioFileName) {
 		audioFileName = pAudioFileName;
+		textFileName = "noname";
+		dateTime = Media.getTimeStarting();
+		duration = Media.getDuration();
 	}
 	
 	public Rec(int id, String audioFileName, String textFileName, long dateTime, long duration) {

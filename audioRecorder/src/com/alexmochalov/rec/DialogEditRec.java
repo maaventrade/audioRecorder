@@ -2,22 +2,13 @@ package com.alexmochalov.rec;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.util.*;
 import android.view.*;
-import android.view.View.OnClickListener;
 import android.widget.*;
-import android.widget.AdapterView.*;
-
+import com.alexmochalov.audiorecorder.*;
+import com.alexmochalov.tag.*;
+import com.alexmochalov.tag.DialogSelectTag.*;
 import java.util.*;
-
-import com.alexmochalov.audiorecorder.R;
-import com.alexmochalov.audiorecorder.RecProvider;
-import com.alexmochalov.audiorecorder.R.id;
-import com.alexmochalov.audiorecorder.R.layout;
-import com.alexmochalov.audiorecorder.R.string;
-import com.alexmochalov.tag.ArrayAdapterTags;
-import com.alexmochalov.tag.DialogSelectTag;
-import com.alexmochalov.tag.Tag;
-import com.alexmochalov.tag.DialogSelectTag.MyCallback;
 
 public class DialogEditRec extends Dialog
 {
@@ -34,7 +25,7 @@ public class DialogEditRec extends Dialog
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+Log.d("","create");
 		this.setTitle(mContext.getResources().getString(R.string.dialog_save_audio));
 	 	setContentView(R.layout.rec);
 		getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,

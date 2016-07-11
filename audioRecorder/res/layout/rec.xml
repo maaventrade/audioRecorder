@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
 
-    
-<View
-    android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:background="@color/blue_title"/>
-	
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/blue_title"/>
+
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -23,13 +23,14 @@
 			android:textColor="@color/sky_blue"/>
 
 		<EditText
-		    android:id="@+id/dialogsaverecAudioFileName"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="1"
-		    android:ems="10" >
+			android:id="@+id/dialogsaverecAudioFileName"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:ems="10">
 
-		    <requestFocus />
+			<requestFocus/>
+
 		</EditText>
 
 	</LinearLayout>
@@ -79,10 +80,10 @@
 	</LinearLayout>
 
 	<LinearLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:paddingBottom="@dimen/activity_horizontal_margin" >
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:paddingBottom="@dimen/activity_horizontal_margin">
 
 		<TextView
 			android:layout_height="wrap_content"
@@ -109,53 +110,54 @@
 	</LinearLayout>
 
 	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
-	    android:layout_weight="0.5"
-	    android:background="@color/bronze_light2"
-	    android:orientation="vertical" >
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_weight="0.5"
+		android:background="@color/bronze_light2"
+		android:orientation="vertical">
 
 		<TextView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:text="@string/dialog_save_tags"
-		    android:textAppearance="?android:attr/textAppearanceMedium"
-		    android:textColor="@color/sky_blue" />
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/dialog_save_tags"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:textColor="@color/sky_blue"/>
 
 		<LinearLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:background="@color/bronze_light2"
-		    android:orientation="horizontal" >
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/bronze_light2"
+			android:orientation="horizontal">
 
-		    <Button
-		        android:id="@+id/dialogrecCreate"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:drawableLeft="@drawable/addsmall"
-		        android:text="@string/newtag" />
+			<Button
+				android:id="@+id/dialogrecCreate"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableLeft="@drawable/addsmall"
+				android:text="@string/newtag"/>
 
-		    <Button
-		        android:id="@+id/dialogrecSelect"
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:layout_weight="0.25"
-		        android:drawableLeft="@drawable/addsmall"
-		        android:text="@string/select" />
+			<Button
+				android:id="@+id/dialogrecSelect"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.25"
+				android:drawableLeft="@drawable/addsmall"
+				android:text="@string/select"/>
 
-		    <Button
-		        android:id="@+id/dialogrecDelete"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:drawableLeft="@drawable/deletesmall" />
+			<Button
+				android:id="@+id/dialogrecDelete"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableLeft="@drawable/deletesmall"/>
+
 		</LinearLayout>
 
 		<ListView
-		    android:id="@+id/dialogrecListViewTags"
-		    android:layout_width="wrap_content"
-		    android:layout_height="match_parent"
-		    android:background="@color/bronze_light2"
-		    android:paddingLeft="@dimen/activity_horizontal_margin" />
+			android:id="@+id/dialogrecListViewTags"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:background="@color/bronze_light2"
+			android:paddingLeft="@dimen/activity_horizontal_margin"/>
 
 	</LinearLayout>
 
@@ -171,19 +173,20 @@
 			android:layout_weight="0.33"/>
 
 		<Button
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_weight="0.33"
-		    android:drawableLeft="@drawable/ok1"
-		    android:text="@string/yes" />
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="0.33"
+			android:drawableLeft="@drawable/ok1"
+			android:text="@string/yes"/>
 
 		<Button
 			android:layout_height="wrap_content"
 			android:text="@string/no"
 			android:layout_width="match_parent"
-			android:layout_weight="0.33"/>
+			android:layout_weight="0.33"
+			android:id="@+id/recButtonNo"/>
 
 	</LinearLayout>
-				
+
 </LinearLayout>
 

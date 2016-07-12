@@ -5,9 +5,11 @@ import android.os.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
+
 import com.alexmochalov.audiorecorder.*;
 import com.alexmochalov.tag.*;
 import com.alexmochalov.tag.DialogSelectTag.*;
+
 import java.util.*;
 
 public class DialogEditRec extends Dialog
@@ -17,15 +19,21 @@ public class DialogEditRec extends Dialog
 	
 	ArrayList<Tag> list = new ArrayList<Tag>();
 
+	public MyCallback callback = null;
+	public interface MyCallback {
+		void onButtonPressed(int par); 
+	} 
+	
 	public DialogEditRec(Context context, Rec record) {
 		super(context);
 		mContext = context;
 		mRecord = record;
 	}
 
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-Log.d("","create");
+
 		this.setTitle(mContext.getResources().getString(R.string.dialog_save_audio));
 	 	setContentView(R.layout.rec);
 		getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
@@ -51,80 +59,16 @@ Log.d("","create");
 		adapter.setCheckBoxIsVisible(true);
 		listView.setAdapter(adapter);
 
-		// Create a new Tag and add to Rec 
-		Button btnCreate = (Button) findViewById(R.id.dialogrecCreate);
-		btnCreate.setOnClickListener(new Button.OnClickListener() {
+		Button btn = (Button) findViewById(R.id.recButtonNo);
+		btn.setOnClickListener(new Button.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-				builder.setTitle("Title");
-
-				final EditText input = new EditText(mContext);
-				builder.setView(input);
-
-				builder.setPositiveButton("OK",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								String name = input.getText().toString();
-								Tag newTag = new Tag(mContext, name);
-								newTag.addLinkToDatabase(mContext, mRecord.id);
-								mRecord.tags.add(newTag);
-								adapter.notifyDataSetChanged();
-							}
-						});
-				builder.setNegativeButton("Cancel",
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								dialog.cancel();
-							}
-						});
-
-				builder.show();
+				if (callback != null)
+					callback.onButtonPressed(0);
+				dismiss();
 			}
 		});
 
-		// Select Tag from list
-		Button btnSelect = (Button) findViewById(R.id.dialogrecSelect);
-		btnSelect.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				DialogSelectTag dialogSelectTag = new DialogSelectTag(mContext);
-				dialogSelectTag.callback = new MyCallback(){
-					@Override
-					public void onItemClick(Tag tag) {
-						tag.addLinkToDatabase(mContext, mRecord.id);
-						mRecord.tags.add(tag);
-						adapter.notifyDataSetChanged();
-					}};
-						
-				dialogSelectTag.show();
-			}
-
-		});
-
-		// Delete Tag from list
-		Button btnDelete = (Button) findViewById(R.id.dialogrecDelete);
-		btnDelete.setOnClickListener(new Button.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				RecProvider.currentTable = "tr";
-				for (int i = mRecord.tags.size()-1; i >= 0; i--){
-					if (mRecord.tags.get(i).isSelected()){
-						ContentResolver cr = mContext.getContentResolver();
-						String w = RecProvider.KEY_ID + " = " + mRecord.ids.get(i);
-						cr.delete(RecProvider.CONTENT_URI, w, null);
-						mRecord.tags.remove(mRecord.tags.get(i));
-					}
-				}
-				adapter.notifyDataSetChanged();
-			}
-
-		});
-		
 	}
 
 }

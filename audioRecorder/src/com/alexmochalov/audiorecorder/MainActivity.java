@@ -261,24 +261,18 @@ public class MainActivity extends Activity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (mState == State.read) {
-				if (Media.getDuration() == 0){
-				
-					
+				if (Media.getDuration() != 0){
 					currentRecord = new Rec(newRecordName());
 					final DialogEditRec dialogEditRec = new DialogEditRec(MainActivity.this, currentRecord);
-					Button b = (Button)dialogEditRec.findViewById(R.id.recButtonNo);
-					Log.d("","b"+b);
-					b.setOnClickListener(new OnClickListener(){
-							@Override
-							public void onClick(View p1)
-							{
+					dialogEditRec.callback = new DialogEditRec.MyCallback() {
+						@Override
+						public void onButtonPressed(int par) {
+							if (par == 0){
 								setContentViewList();
-								dialogEditRec.dismiss();
 							}
-						});
-					
+						}
+					}; 
 					dialogEditRec.show();
-					
 					
 				} else
 					setContentViewList();
